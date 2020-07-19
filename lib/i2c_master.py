@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright 2020 by Murray Altheim. All rights reserved. This file is part
-# of the pimaster2ardslave project and is released under the MIT Licence;
+# of the pimain2ardsubordinate project and is released under the MIT Licence;
 # please see the LICENSE file included as part of this package.
 #
 # author:   Murray Altheim
@@ -21,17 +21,17 @@ init()
 from lib.logger import Logger, Level
 
 # ..............................................................................
-class I2cMaster():
+class I2cMain():
     '''
-        A Raspberry Pi Master for a corresponding Arduino Slave.
+        A Raspberry Pi Main for a corresponding Arduino Subordinate.
 
         Parameters:
-          device_id:  the I²C address over which the master and slave communicate
+          device_id:  the I²C address over which the main and subordinate communicate
           level:      the log level, e.g., Level.INFO
     '''
     def __init__(self, device_id, level):
         super().__init__()
-        self._log = Logger('i²cmaster-0x{:02x}'.format(device_id), level)
+        self._log = Logger('i²cmain-0x{:02x}'.format(device_id), level)
         self._device_id = device_id
         self._log.debug('initialising to communicate over I²C address 0x{:02X}...'.format(device_id))
         try:
@@ -196,7 +196,7 @@ class I2cMaster():
                 self._handle = None
                 self._log.debug('I²C device at handle {} closed.'.format(self._handle))
             except Exception as e:
-                self._log.error('error closing master: {}'.format(e))
+                self._log.error('error closing main: {}'.format(e))
         else:
             self._log.debug('I²C device at handle {} closed.'.format(self._handle))
 
@@ -206,8 +206,8 @@ class I2cMaster():
     # ..........................................................................
     def test_echo(self):
         '''
-            Performs a simple test, sending a series of bytes to the slave, then
-            reading the return values. The Arduino slave's 'isEchoTest' boolean
+            Performs a simple test, sending a series of bytes to the subordinate, then
+            reading the return values. The Arduino subordinate's 'isEchoTest' boolean
             must be set to true. This does not require any hardware configuration
             save that the Raspberry Pi must be connected to the Arduino via I²C
             and that there is no contention on address 0x08.
@@ -270,7 +270,7 @@ class I2cMaster():
         except KeyboardInterrupt:
             self._log.warning('Ctrl-C caught; exiting...')
         except Exception as e:
-            self._log.error('error in master: {}'.format(e))
+            self._log.error('error in main: {}'.format(e))
             traceback.print_exc(file=sys.stdout)
 
 
@@ -363,7 +363,7 @@ class I2cMaster():
         except KeyboardInterrupt:
             self._log.warning('Ctrl-C caught; exiting...')
         except Exception as e:
-            self._log.error('error in master: {}'.format(e))
+            self._log.error('error in main: {}'.format(e))
             traceback.print_exc(file=sys.stdout)
 #       finally:
 #           self.close()

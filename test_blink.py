@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright 2020 by Murray Altheim. All rights reserved. This file is part
-# of the pimaster2ardslave project and is released under the MIT Licence;
+# of the pimain2ardsubordinate project and is released under the MIT Licence;
 # please see the LICENSE file included as part of this package.
 #
 # author:   Murray Altheim
@@ -22,7 +22,7 @@
 #
 
 from lib.logger import Level
-from lib.i2c_master import I2cMaster
+from lib.i2c_main import I2cMain
 
 # ..............................................................................
 def main():
@@ -30,10 +30,10 @@ def main():
     try:
 
         _device_id = 0x08  # must match Arduino's SLAVE_I2C_ADDRESS
-        _master = I2cMaster(_device_id, Level.INFO)
-        if _master is not None: 
+        _main = I2cMain(_device_id, Level.INFO)
+        if _main is not None: 
 
-            _master.test_blink_led(7) # see documentation for hardware configuration
+            _main.test_blink_led(7) # see documentation for hardware configuration
 
         else:
             raise Exception('unable to establish contact with Arduino on address 0x{:02X}'.format(_device_id))
@@ -41,8 +41,8 @@ def main():
     except KeyboardInterrupt:
         self._log.warning('Ctrl-C caught; exiting...')
     finally:
-        if _master:
-            _master.close()
+        if _main:
+            _main.close()
 
 
 if __name__== "__main__":
